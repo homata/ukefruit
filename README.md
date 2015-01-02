@@ -1,7 +1,10 @@
-ukefruit
+うけどんのfruit Panic for HTML5
 ========
 
+うけどんのfruit Panic for HTML5 & Android Application
+
 * [MIT License](http://opensource.org/licenses/mit-license.php)
+
 
 ### オリジナル
 
