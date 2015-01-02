@@ -339,12 +339,16 @@ function check(i, j) {
     if (board[i - 1] && board[i - 1][j] && board[i][j].frame == board[i - 1][j].frame)
         check(i - 1, j);
 
-    if (board[i] && board[i][j - 1] && board[i][j].frame == board[i][j - 1].frame)
-        check(i, j - 1);
     if (board[i + 1] && board[i + 1][j] && board[i][j].frame == board[i + 1][j].frame)
         check(i + 1, j);
+
+
     if (board[i] && board[i][j + 1] && board[i][j].frame == board[i][j + 1].frame)
         check(i, j + 1);
+
+    if (board[i] && board[i][j - 1] && board[i][j].frame == board[i][j - 1].frame)
+        check(i, j - 1);
+
 
     checked++;
     return true;

@@ -27,5 +27,8 @@ proguard/
 
 # for Mac & Emacs
 00.SAVE/
-.#*
 .DS_Store
+.*~
+*~
+.#*
+"#*"

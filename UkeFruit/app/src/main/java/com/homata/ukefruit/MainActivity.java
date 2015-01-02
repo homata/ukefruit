@@ -19,8 +19,8 @@ public class MainActivity extends Activity {
         //標準ブラウザをキャンセル
         myWebView.setWebViewClient(new WebViewClient());
         //アプリ起動時に読み込むURL
-        myWebView.loadUrl("http://dev.openfab.jp/~homata/furit/index.html");
-        //myWebView.loadUrl("file:///android_asset/index.html");
+        //myWebView.loadUrl("http://dev.openfab.jp/~homata/furit/index.html");
+        myWebView.loadUrl("file:///android_asset/index.html");
 
         // JavaScript有効
         myWebView.getSettings().setUseWideViewPort(true);
