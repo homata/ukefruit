@@ -24,3 +24,8 @@ proguard/
 
 # Log Files
 *.log
+
+# for Mac & Emacs
+00.SAVE/
+.#*
+.DS_Store
