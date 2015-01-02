@@ -1,4 +1,4 @@
-package com.homata.ukefruit.ukefruit;
+package com.homata.ukefruit;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

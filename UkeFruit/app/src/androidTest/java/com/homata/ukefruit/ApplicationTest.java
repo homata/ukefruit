@@ -1,4 +1,4 @@
-package com.homata.ukefruit.ukefruit;
+package com.homata.ukefruit;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

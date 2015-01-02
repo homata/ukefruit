@@ -8,8 +8,8 @@
         <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/../../../../google_drive/workspace/samegame/ukefruit/UkeFruit" />
-            <option value="$PROJECT_DIR$/../../../../google_drive/workspace/samegame/ukefruit/UkeFruit/app" />
+            <option value="$PROJECT_DIR$/../../../google_drive/workspace/ukefruit/UkeFruit" />
+            <option value="$PROJECT_DIR$/../../../google_drive/workspace/ukefruit/UkeFruit/app" />
           </set>
         </option>
       </GradleProjectSettings>
