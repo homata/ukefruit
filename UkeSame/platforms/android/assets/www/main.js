@@ -21,24 +21,25 @@ enchant();
 // ----------------------------------------------------------
 //
 // ----------------------------------------------------------
-var checked = 0;
-var stage   = 1;
+var gchecked = 0;
+var stage = 1;
 var board, game, boardGroup;
 
 // ----------------------------------------------------------
 //
 // ----------------------------------------------------------
 var stages = {
-    1: {width: 8, height: 8, bonus: 100},
-    2: {width: 10, height: 8, bonus: 100},
-    3: {width: 13, height: 8, bonus: 100},
-    4: {width: 13, height: 10, bonus: 100},
-    5: {width: 13, height: 10, bonus: 100},
-    6: {width: 13, height: 10, bonus: 100},
-    7: {width: 13, height: 10, bonus: 100},
-    8: {width: 13, height: 10, bonus: 100},
-    9: {width: 13, height: 10, bonus: 100},
-    10: {width: 13, height: 10, bonus: 100}
+     0: {width:  4, height:  4, bonus: 100, item: 3},
+     1: {width:  8, height:  8, bonus: 100, item: 3},
+     2: {width: 10, height:  8, bonus: 100, item: 3},
+     3: {width: 13, height:  8, bonus: 100, item: 4},
+     4: {width: 13, height: 10, bonus: 100, item: 4},
+     5: {width: 13, height: 10, bonus: 100, item: 5},
+     6: {width: 13, height: 10, bonus: 100, item: 5},
+     7: {width: 13, height: 10, bonus: 100, item: 6},
+     8: {width: 13, height: 10, bonus: 100, item: 6},
+     9: {width: 13, height: 10, bonus: 100, item: 6},
+    10: {width: 13, height: 10, bonus: 100, item: 6}
 };
 
 // ----------------------------------------------------------
@@ -134,8 +135,10 @@ function clearBoard() {
 //
 // ----------------------------------------------------------
 function resetBoard() {
-    width = stages[stage].width;
+
+    width  = stages[stage].width;
     height = stages[stage].height;
+    var item = stages[stage].item;
 
     board = new Array(width);
     for (var i = 0; i < width; i++) {
@@ -152,11 +155,11 @@ function resetBoard() {
             board[i][j].j = j;
             board[i][j].checked = false;
             board[i][j].image = game.assets[IMAGE_DATA];
-            board[i][j].frame = rand(4) + 1;
+            board[i][j].frame = rand(item);
 
             boardGroup.addChild(board[i][j]);
             board[i][j].update = function() {
-                this.x = this.i * GRID_SIZE + 10;
+                this.x = this.i * GRID_SIZE;
                 this.y = BOARD_SIZE_Y - (this.j + 1) * GRID_SIZE;
             }
             board[i][j].update();
@@ -174,24 +177,16 @@ function resetBoard() {
     }
 }
 
-
 // ----------------------------------------------------------
 //
 // ----------------------------------------------------------
 function click(i, j) {
+
     clearcheck();
 
-    checked = 0;
     check(i, j);
 
-    if (checked > 1) {
-        if (checked >= 5) {
-            bonus = Math.pow(checked - 2, 2) * 10 / (stage + 2);
-        } else {
-            //var se = game.assets['se2.wav'].clone();
-            //se.play();
-        }
-
+    if (gchecked > 1) {
         for (var p = width - 1; p >= 0; p--) {
             if (board[p]) {
                 if (board[p].length == 0) {
@@ -207,39 +202,41 @@ function click(i, j) {
             }
         }
 
+        // 縦方向を詰める
         var newBoard = [];
         for (var p = 0; p < width; p++) {
             if (board[p] && board[p].length > 0) {
-                for (var q in board[p]) {
-                    board[p][q].i = newBoard.length;
-                    board[p][q].update();
-                }
                 newBoard.push(board[p]);
             }
         }
         board = newBoard;
-        newBoard = []
 
+        //　更新座標設定
         for (var p in board) {
-            newBoard[p] = [];
             for (var q = 0; q < height; q++) {
                 if (board[p][q]) {
-                    newBoard[p].push(board[p][q]);
+                    board[p][q].i = parseInt(p);
                     board[p][q].j = q;
                     board[p][q].update();
                 }
             }
         }
+
     } else {
         //お手つき
     }
-    if (endcheck()) {
-        var bonus = stages[stage].bonus;
 
-        stage++;
+    if (endcheck()) {
+        //var bonus = stages[stage].bonus;
+
+        stage ++;
 
         if (!stages[stage]) {
+            // ステージデータ終了
         } else {
+            alert(stage - 1 + " Stage End");
+
+            // 次のステージへ
             clearBoard();
             resetBoard();
         }
@@ -247,7 +244,7 @@ function click(i, j) {
 }
 
 // ----------------------------------------------------------
-//
+//　チェックフラグクリア
 // ----------------------------------------------------------
 function clearcheck() {
     for (var p in board) {
@@ -255,24 +252,29 @@ function clearcheck() {
             board[p][q].checked = false;
         }
     }
-    checked = 0;
+    gchecked = 0;
 }
 
 // ----------------------------------------------------------
-//
+//　総当りで消去可能データをチェック
 // ----------------------------------------------------------
 function endcheck() {
     for (var p in board) {
         for (var q in board[p]) {
+            /*
             if (board[p][q].frame == 0)
                 continue;
+            */
             clearcheck();
             check(p, q);
-            if (checked > 1) {
+
+            // 消去可能データあり
+            if (gchecked > 1) {
                 return false;
             }
         }
     }
+    // 消去可能データなし
     return true;
 }
 
@@ -280,6 +282,7 @@ function endcheck() {
 //
 // ----------------------------------------------------------
 function check(i, j) {
+
     if (board[i][j].checked) {
         return false;
     }
@@ -298,8 +301,7 @@ function check(i, j) {
     if (board[i] && board[i][j - 1] && board[i][j].frame == board[i][j - 1].frame)
         check(i, j - 1);
 
-
-    checked++;
+    gchecked ++;
     return true;
 }
 
